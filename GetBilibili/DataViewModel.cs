@@ -277,33 +277,50 @@ namespace GetBilibili
                 {
                     try
                     {
-                        string outString;
-                        //获取图片地址的Json
-                        Common.GetHtml($"https://api.vc.bilibili.com/link_draw/v1/doc/detail?doc_id={data.UrlId}", HeadDic, out outString);
-                        JObject jo = (JObject)JsonConvert.DeserializeObject(outString);
-                        JObject jsnoData = (JObject)JsonConvert.DeserializeObject(jo["data"].ToString());
-                        JObject item = (JObject)JsonConvert.DeserializeObject(jsnoData["item"].ToString());
-                        JArray pictures = (JArray)JsonConvert.DeserializeObject(item["pictures"].ToString());
-                        data.AllCount = pictures.Count;//设置本次下载图片的总数
-                        for (int i = 0; i < pictures.Count; i++)
-                        {
-                            JObject urlInfo = (JObject)JsonConvert.DeserializeObject(pictures[i].ToString());
-                            Common.SaveImage(urlInfo["img_src"].ToString(), path, $"{data.UrlId}_{i}");
-                            data.DownLoadCount = i + 1;//更新已下载的图片数
-                        }
+                        ImageSaving(data, path);
                         data.IsSelected = false;//取消是否下载勾选
-                        LoadDataCount += 1;//更新已下载数据的条数
+                        LoadDataCount++;//更新已下载数据的条数
                         data.State = "成功!";//更新下载状态
                     }
-                    catch (Exception e)
+                    catch (Exception exception)
                     {
                         data.IsSelected = true;//勾选是否下载
-                        data.State = $"失败!{e.Message}";//更新下载状态
+                        data.State = $"失败!{exception.Message}";//更新下载状态
                     }
                 }
                 DownLoading = true;//下载完成重新启用某些控件
             });
         }
+        /// <summary>
+        /// 图片保存
+        /// </summary>
+        /// <param name="data">下载详细信息</param>
+        /// <param name="path">保存地址</param>
+        private void ImageSaving(DownLoadData data, string path)
+        {
+            string outString;
+            //获取图片地址的Json
+            Common.GetHtml($"https://api.vc.bilibili.com/link_draw/v1/doc/detail?doc_id={data.UrlId}", HeadDic, out outString);
+            JObject jo = (JObject)JsonConvert.DeserializeObject(outString);
+            JObject jsnoData = (JObject)JsonConvert.DeserializeObject(jo["data"].ToString());
+            JObject item = (JObject)JsonConvert.DeserializeObject(jsnoData["item"].ToString());
+            JArray pictures = (JArray)JsonConvert.DeserializeObject(item["pictures"].ToString());
+            data.AllCount = pictures.Count; //设置本次下载图片的总数
+            for (int i = 0; i < pictures.Count; i++)
+            {
+                JObject urlInfo = (JObject)JsonConvert.DeserializeObject(pictures[i].ToString());
+                try
+                {
+                    Common.SaveImage(urlInfo["img_src"].ToString(), path, $"{data.UrlId}_{i}");
+                    data.DownLoadCount++; //更新下载成功的图片数
+                }
+                catch (Exception e)
+                {
+                    data.Error += $"图片{i + 1}失败!{e.Message}|"; //更新下载状态
+                }
+            }
+        }
+
         /// <summary>
         /// 添加Header
         /// </summary>
@@ -420,12 +437,22 @@ namespace GetBilibili
         }
         private int downLoadCount;
         /// <summary>
-        /// 已下载的图片数
+        /// 下载成功的图片数
         /// </summary>
         public int DownLoadCount
         {
             get { return downLoadCount; }
             set { downLoadCount = value; OnPropertyChanged(nameof(DownLoadCount)); }
+        }
+
+        private string error;
+        /// <summary>
+        /// 错误详情
+        /// </summary>
+        public string Error
+        {
+            get { return error; }
+            set { error = value; OnPropertyChanged(nameof(Error));}
         }
 
 

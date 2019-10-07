@@ -84,8 +84,9 @@
                 <DataGridTextColumn Header="Up主" Binding="{Binding UpName}"/>
                 <DataGridTextColumn Header="UrlId地址" Binding="{Binding UrlId}"/>
                 <DataGridTextColumn Header="图片总数" Binding="{Binding AllCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                <DataGridTextColumn Header="图片已下载数" Binding="{Binding DownLoadCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="图片下载成功数" Binding="{Binding DownLoadCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 <DataGridTextColumn Header="状态" Binding="{Binding State,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                <DataGridTextColumn Header="错误" Binding="{Binding Error,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center">
