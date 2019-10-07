@@ -8,6 +8,7 @@ using System.Net.Mime;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using UC_Pub.Bases;
 using UC_Pub.Enums;
 
 namespace Reptile
@@ -58,6 +59,21 @@ namespace Reptile
                 result[i] = matchs[i].Result(did);
             }
             return result;
+        }
+        /// <summary>
+        /// 批量解析
+        /// </summary>
+        /// <param name="ZzDic">正则字典</param>
+        /// <param name="html">解析文本</param>
+        /// <returns></returns>
+        public static Dictionary<string,string[]> AnalysisBatch(Dictionary<string,string> ZzDic,string html)
+        {
+            Dictionary<string, string[]> resultDic = new Dictionary<string, string[]>();
+            foreach (KeyValuePair<string, string> keyValuePair in ZzDic)
+            {
+                resultDic.Add(keyValuePair.Key,Analysis(keyValuePair.Key, keyValuePair.Value, html));
+            }
+            return resultDic;
         }
         /// <summary>
         /// 保存网络图片资源到本地

@@ -145,7 +145,7 @@ namespace GetBilibili
             set { url = value; OnPropertyChanged(nameof(Url)); }
         }
 
-        private string dataCount;
+        private string dataCount = "0";
         /// <summary>
         /// 数据总条数
         /// </summary>
@@ -155,7 +155,7 @@ namespace GetBilibili
             set { dataCount = value; OnPropertyChanged(nameof(DataCount)); }
         }
 
-        private string allPage;
+        private string allPage = "";
         /// <summary>
         /// 数据总页数
         /// </summary>
@@ -183,7 +183,7 @@ namespace GetBilibili
         {
             get
             {
-                return isDefault ? DefaultDic : 
+                return isDefault ? DefaultDic :
                     HeaderList.Where(n => n.IsEnable).ToDictionary(header => header.Key, header => header.Value);
             }
         }
@@ -199,13 +199,6 @@ namespace GetBilibili
             string[] strings = Common.Analysis(zz, "$2", html);//获取UrlId
             string upZz = "<a href=\"([\\s\\S]*?)\" target=\"_blank\" class=\"up-name\">([\\s\\S]*?)</a>";
             string[] ups = Common.Analysis(upZz, "$2", html);//获取Up主
-            if (string.IsNullOrWhiteSpace(DataCount))//获取一次数据总条数与总页数
-            {
-                string countZz = "共([\\s\\S]*?)条数据";
-                DataCount = Common.Analysis(countZz, "$1", html)[0];
-                int intCount = int.Parse(DataCount);
-                AllPage = intCount % 20 > 0 ? (intCount / 20 + 1).ToString() : (intCount / 20).ToString();
-            }
             for (var i = 0; i < strings.Length; i++)
             {
                 UrlList.Add(
@@ -243,6 +236,13 @@ namespace GetBilibili
                 {
                     result += $"\r\n获取第{i}页UrlID失败\r\n原因:{res}";
                     continue;
+                }
+                if (i < 1)
+                {
+                    string countZz = "共([\\s\\S]*?)条数据";
+                    DataCount = Common.Analysis(countZz, "$1", html)[0].Replace("+", string.Empty);
+                    int intCount = int.Parse(DataCount);
+                    AllPage = intCount % 20 > 0 ? (intCount / 20 + 1).ToString() : (intCount / 20).ToString();
                 }
             }
             LoadDataCount = 0;//清空已下载的数据条数

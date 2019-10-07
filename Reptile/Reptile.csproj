@@ -47,8 +47,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="UC_Pub">
-      <HintPath>..\..\MyLibrary\UC_Pub.dll</HintPath>
+    <Reference Include="UC_Pub, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\MyLibrary\UC_Pub.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -80,6 +81,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y  "$(TargetPath)" "$(SolutionDir)..\..\MyLibrary\"</PostBuildEvent>
+    <PostBuildEvent>copy /Y  "$(TargetPath)" "$(SolutionDir)..\..\..\MyLibrary\"</PostBuildEvent>
   </PropertyGroup>
 </Project>
