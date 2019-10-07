@@ -285,7 +285,8 @@ namespace GetBilibili
                     catch (Exception exception)
                     {
                         data.IsSelected = true;//勾选是否下载
-                        data.State = $"失败!{exception.Message}";//更新下载状态
+                        data.State = "失败!";//更新下载状态
+                        data.Error += exception.Message;
                     }
                 }
                 DownLoading = true;//下载完成重新启用某些控件
@@ -452,7 +453,7 @@ namespace GetBilibili
         public string Error
         {
             get { return error; }
-            set { error = value; OnPropertyChanged(nameof(Error));}
+            set { error = value; OnPropertyChanged(nameof(Error)); }
         }
 
 

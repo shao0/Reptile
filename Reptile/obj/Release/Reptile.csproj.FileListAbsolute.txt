@@ -9,7 +9,6 @@ H:\哼!\我的爬虫入门\Reptile\obj\Release\Reptile.dll
 H:\哼!\我的爬虫入门\Reptile\obj\Release\Reptile.pdb
 H:\哼!\我的爬虫入门\bili\Reptile\bin\Release\Reptile.dll
 H:\哼!\我的爬虫入门\bili\Reptile\bin\Release\Reptile.pdb
-H:\哼!\我的爬虫入门\bili\Reptile\obj\Release\Reptile.csprojAssemblyReference.cache
 H:\哼!\我的爬虫入门\bili\Reptile\obj\Release\Reptile.Properties.Resources.resources
 H:\哼!\我的爬虫入门\bili\Reptile\obj\Release\Reptile.csproj.GenerateResource.cache
 H:\哼!\我的爬虫入门\bili\Reptile\obj\Release\Reptile.csproj.CopyComplete
