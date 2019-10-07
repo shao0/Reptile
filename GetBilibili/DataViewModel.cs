@@ -155,7 +155,7 @@ namespace GetBilibili
             set { dataCount = value; OnPropertyChanged(nameof(DataCount)); }
         }
 
-        private string allPage = "";
+        private string allPage = "0";
         /// <summary>
         /// 数据总页数
         /// </summary>
@@ -240,9 +240,13 @@ namespace GetBilibili
                 if (i < 1)
                 {
                     string countZz = "共([\\s\\S]*?)条数据";
-                    DataCount = Common.Analysis(countZz, "$1", html)[0].Replace("+", string.Empty);
-                    int intCount = int.Parse(DataCount);
+                    DataCount = Common.Analysis(countZz, "$1", html)[0];
+                    int intCount = int.Parse(DataCount.Replace("+", string.Empty));
                     AllPage = intCount % 20 > 0 ? (intCount / 20 + 1).ToString() : (intCount / 20).ToString();
+                    if (DataCount.IndexOf('+') > -1)
+                    {
+                        AllPage += "+";
+                    }
                 }
             }
             LoadDataCount = 0;//清空已下载的数据条数
