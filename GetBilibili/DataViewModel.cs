@@ -122,8 +122,10 @@ namespace GetBilibili
             get { return page; }
             set
             {
-                if (value <= 1) return;
-                page = value;
+                if (value > 1)
+                {
+                    page = value;
+                }
                 OnPropertyChanged(nameof(Page));
             }
         }
@@ -208,7 +210,6 @@ namespace GetBilibili
                             .Replace("<em class=\"keyword\">", "")
                             .Replace("</em>", ""),
                         UrlId = strings[i],
-                        IsSelected = true,
                         State = "未下载"
                     });
             }
@@ -273,18 +274,16 @@ namespace GetBilibili
                 {
                     Directory.CreateDirectory(path);
                 }
-                foreach (DownLoadData data in UrlList.Where(n => n.IsSelected))
+                foreach (DownLoadData data in UrlList)
                 {
                     try
                     {
                         ImageSaving(data, path);
-                        data.IsSelected = false;//取消是否下载勾选
                         LoadDataCount++;//更新已下载数据的条数
                         data.State = "成功!";//更新下载状态
                     }
                     catch (Exception exception)
                     {
-                        data.IsSelected = true;//勾选是否下载
                         data.State = "失败!";//更新下载状态
                         data.Error += exception.Message;
                     }
@@ -417,15 +416,6 @@ namespace GetBilibili
         {
             get { return upName; }
             set { upName = value; OnPropertyChanged(nameof(UpName)); }
-        }
-        private bool isSelected;
-        /// <summary>
-        /// 是否选择下载
-        /// </summary>
-        public bool IsSelected
-        {
-            get { return isSelected; }
-            set { isSelected = value; OnPropertyChanged(nameof(IsSelected)); }
         }
         private int allCount;
         /// <summary>

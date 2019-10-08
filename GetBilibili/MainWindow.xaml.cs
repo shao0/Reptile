@@ -26,6 +26,18 @@ namespace GetBilibili
         {
             InitializeComponent();
             Loaded += MainWindow_Loaded;
+            Closing += MainWindow_Closing;
+        }
+
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (VM.DownLoading) return;
+            if (MessageBox.Show("正在下载中是否强制退出!",
+                    "退出提示", MessageBoxButton.YesNo) == MessageBoxResult.No)
+            {
+                e.Cancel = true;
+            }
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

@@ -38,3 +38,4 @@ H:\哼!\我的爬虫入门\bili\GetBilibili\obj\Debug\GetBilibili.g.resources
 H:\哼!\我的爬虫入门\bili\GetBilibili\obj\Debug\GetBilibili.Properties.Resources.resources
 H:\哼!\我的爬虫入门\bili\GetBilibili\obj\Debug\GetBilibili.csproj.GenerateResource.cache
 H:\哼!\我的爬虫入门\bili\GetBilibili\obj\Debug\GetBilibili.csproj.CopyComplete
+H:\哼!\我的爬虫入门\bili\GetBilibili\obj\Debug\GetBilibili.csproj.CoreCompileInputs.cache

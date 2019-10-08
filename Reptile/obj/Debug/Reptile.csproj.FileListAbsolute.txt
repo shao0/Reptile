@@ -15,3 +15,5 @@ H:\哼!\我的爬虫入门\bili\Reptile\bin\Debug\Reptile.dll
 H:\哼!\我的爬虫入门\bili\Reptile\bin\Debug\Reptile.pdb
 H:\哼!\我的爬虫入门\bili\Reptile\bin\Debug\UC_Pub.dll
 H:\哼!\我的爬虫入门\bili\Reptile\obj\Debug\Reptile.csproj.CopyComplete
+H:\哼!\我的爬虫入门\bili\Reptile\obj\Debug\Reptile.csproj.CoreCompileInputs.cache
+H:\哼!\我的爬虫入门\bili\Reptile\obj\Debug\Reptile.csprojAssemblyReference.cache

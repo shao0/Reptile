@@ -27,7 +27,8 @@
             <TextBox Text="{Binding KeyWord,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="下载的页数:"/>
             <TextBox Text="{Binding Page,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Click="Analysis_OnClick" Content="解析"/>
+            <Button Click="Analysis_OnClick" Content="解析" 
+                    IsEnabled="{Binding DownLoading,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
         <StackPanel Grid.Row="1" HorizontalAlignment="Right" Orientation="Horizontal">
             <TextBlock Text="共" Margin="20 0 0 0"/>
@@ -38,31 +39,30 @@
         </StackPanel>
         <TextBlock Grid.Row="2" Text="Header详细" FontWeight="Bold" />
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
-            <CheckBox Content="默认Header" IsChecked="{Binding IsDefault,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Name="default"/>
-            <StackPanel  Orientation="Horizontal">
-                <StackPanel.Resources>
-                    <Style TargetType="StackPanel">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsDefault,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Value="True">
-                                <Setter Property="IsEnabled" Value="False"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </StackPanel.Resources>
-                <Button Content="添加" Click="Addition_OnClick"/>
-                <Button Content="删除" Click="Delete_OnClick"/>
-            </StackPanel>
-        </StackPanel>
-        <DataGrid Grid.Row="3" ItemsSource="{Binding HeaderList}" Name="dg" Height="120">
-           <DataGrid.Resources>
-               <Style TargetType="DataGrid" BasedOn="{StaticResource DataGrid_Style}">
-                   <Style.Triggers>
+            <StackPanel.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource Button_Bule}">
+                    <Style.Triggers>
                         <DataTrigger Binding="{Binding IsDefault,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Value="True">
                             <Setter Property="IsEnabled" Value="False"/>
                         </DataTrigger>
-                   </Style.Triggers>
-               </Style>
-           </DataGrid.Resources>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+            <CheckBox Content="默认Header" IsChecked="{Binding IsDefault,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                      IsEnabled="{Binding DownLoading,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Name="default"/>
+            <Button Content="添加" Click="Addition_OnClick"/>
+            <Button Content="删除" Click="Delete_OnClick"/>
+        </StackPanel>
+        <DataGrid Grid.Row="3" ItemsSource="{Binding HeaderList}" Name="dg" Height="120">
+            <DataGrid.Resources>
+                <Style TargetType="DataGrid" BasedOn="{StaticResource DataGrid_Style}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsDefault,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Value="True">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="是否启用" Binding="{Binding IsEnable}"/>
                 <DataGridTextColumn Header="Key" Binding="{Binding Key}"/>
@@ -70,17 +70,7 @@
             </DataGrid.Columns>
         </DataGrid>
         <DataGrid Grid.Row="4" ItemsSource="{Binding UrlList}" Name="gdurl"  IsReadOnly="True">
-            <DataGrid.Resources>
-                <Style TargetType="DataGrid" BasedOn="{StaticResource DataGrid_Style}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding DownLoading,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Value="True">
-                            <Setter Property="IsReadOnly" Value="False"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="是否下载" Binding="{Binding IsSelected,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
                 <DataGridTextColumn Header="Up主" Binding="{Binding UpName}"/>
                 <DataGridTextColumn Header="UrlId地址" Binding="{Binding UrlId}"/>
                 <DataGridTextColumn Header="图片总数" Binding="{Binding AllCount,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
@@ -100,8 +90,11 @@
         <StackPanel Grid.Row="6" Orientation="Horizontal">
             <TextBlock Text="保存地址:"/>
             <TextBox IsReadOnly="True" MinWidth="300" Width="auto" Text="{Binding FilePath,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-            <Button Content="..." Click="FilePath_OnClick"/>
+            <Button Content="..." Click="FilePath_OnClick" 
+                    IsEnabled="{Binding DownLoading,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
         </StackPanel>
-        <Button Grid.Row="7" Click="DownLoad_Click" IsEnabled="{Binding DownLoading,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Content="下载"   />
+        <Button Grid.Row="7" Click="DownLoad_Click" 
+                IsEnabled="{Binding DownLoading,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                Content="下载"   />
     </Grid>
 </Window>
