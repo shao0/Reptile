@@ -32,11 +32,14 @@ namespace GetBilibili
         public ObservableCollection<DownLoadData> UrlList { set; get; }
 
         protected Dictionary<string, string> DefaultDic;
+
+        private InternetWorm reptile;
         /// <summary>
         /// 构造函数
         /// </summary>
         public DataViewModel()
         {
+            reptile = new InternetWorm();
             UrlList = new ObservableCollection<DownLoadData>();
             HeaderList = new ObservableCollection<Header>
             {
@@ -58,6 +61,8 @@ namespace GetBilibili
             };
 
         }
+
+
 
         private bool downLoading = true;
         /// <summary>
@@ -198,9 +203,9 @@ namespace GetBilibili
         {
             string result = 成功;
             string zz = "<a title=\"([\\s\\S]*?)\" href=\"//h.bilibili.com/([\\s\\S]*?)\\?from=search\" target=\"_blank\" class=\"title\">";
-            string[] strings = Common.Analysis(zz, "$2", html);//获取UrlId
+            string[] strings = reptile.Analysis(zz, "$2", html);//获取UrlId
             string upZz = "<a href=\"([\\s\\S]*?)\" target=\"_blank\" class=\"up-name\">([\\s\\S]*?)</a>";
-            string[] ups = Common.Analysis(upZz, "$2", html);//获取Up主
+            string[] ups = reptile.Analysis(upZz, "$2", html);//获取Up主
             for (var i = 0; i < strings.Length; i++)
             {
                 UrlList.Add(
@@ -226,7 +231,7 @@ namespace GetBilibili
             for (int i = 0; i < Page; i++)
             {
                 string html;
-                string res = Common.GetHtml($"{Url}{(i > 0 ? $"&page={i + 1}" : string.Empty)}", HeadDic, out html);
+                string res = reptile.GetHtml($"{Url}{(i > 0 ? $"&page={i + 1}" : string.Empty)}", HeadDic, out html);
                 if (res != Enums.成功)
                 {
                     result += $"\r\n获取第{i}页HTML失败\r\n原因:{res}";
@@ -241,7 +246,7 @@ namespace GetBilibili
                 if (i < 1)
                 {
                     string countZz = "共([\\s\\S]*?)条数据";
-                    DataCount = Common.Analysis(countZz, "$1", html)[0];
+                    DataCount = reptile.Analysis(countZz, "$1", html)[0];
                     int intCount = int.Parse(DataCount.Replace("+", string.Empty));
                     AllPage = intCount % 20 > 0 ? (intCount / 20 + 1).ToString() : (intCount / 20).ToString();
                     if (DataCount.IndexOf('+') > -1)
@@ -300,7 +305,7 @@ namespace GetBilibili
         {
             string outString;
             //获取图片地址的Json
-            Common.GetHtml($"https://api.vc.bilibili.com/link_draw/v1/doc/detail?doc_id={data.UrlId}", HeadDic, out outString);
+            reptile.GetHtml($"https://api.vc.bilibili.com/link_draw/v1/doc/detail?doc_id={data.UrlId}", HeadDic, out outString);
             JObject jo = (JObject)JsonConvert.DeserializeObject(outString);
             JObject jsnoData = (JObject)JsonConvert.DeserializeObject(jo["data"].ToString());
             JObject item = (JObject)JsonConvert.DeserializeObject(jsnoData["item"].ToString());
@@ -311,7 +316,7 @@ namespace GetBilibili
                 JObject urlInfo = (JObject)JsonConvert.DeserializeObject(pictures[i].ToString());
                 try
                 {
-                    Common.SaveImage(urlInfo["img_src"].ToString(), path, $"{data.UrlId}_{i}");
+                    reptile.SaveImage(urlInfo["img_src"].ToString(), path, $"{data.UrlId}_{i}");
                     data.DownLoadCount++; //更新下载成功的图片数
                 }
                 catch (Exception e)

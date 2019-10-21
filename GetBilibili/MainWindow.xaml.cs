@@ -49,6 +49,11 @@ namespace GetBilibili
 
         private void Analysis_OnClick(object sender, RoutedEventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(VM.KeyWord))
+            {
+                MessageBox.Show("关键字不能为空!", "提示");
+                return;
+            }
             string result = VM.Analysis();
             MessageBox.Show(result == Enums.成功 ? "成功" : $"失败\r\n{result}");
         }
